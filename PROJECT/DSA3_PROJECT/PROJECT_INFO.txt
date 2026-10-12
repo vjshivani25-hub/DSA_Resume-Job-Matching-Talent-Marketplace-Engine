@@ -1,0 +1,11 @@
+DSA_Project
+Résumé–Job Matching & Talent-Marketplace Engine
+
+Java + DSA | No Database | No Python
+Server: Java HttpServer
+Port: 8080
+
+Run:
+1. javac -d out (Get-ChildItem -Recurse src -Filter *.java | ForEach-Object { $_.FullName })
+2. java -cp out Main
+3. Open http://localhost:8080
