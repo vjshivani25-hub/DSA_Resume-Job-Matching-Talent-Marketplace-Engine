@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TalentMatch — Resume Job Matching Engine</title>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<div id="toast" class="toast"></div>
+<header class="navbar" id="navbar">
+  <a class="brand" href="#home" onclick="backToHome();return false"><span class="brand-mark">TM</span><span>Talent<span>Match</span></span></a>
+  <nav id="publicNav">
+    <a href="#home" onclick="goHomeSection('home')">Home</a>
+    <a href="#candidate" onclick="goHomeSection('candidate')">Candidates</a>
+    <a href="#recruiter" onclick="goHomeSection('recruiter')">Recruiters</a>
+    <a href="#jobs" onclick="goHomeSection('jobs')">Jobs</a>
+    <a href="#talent" onclick="goHomeSection('talent')">Talent</a>
+    <a href="#matching" onclick="goHomeSection('matching')">Matching</a>
+    <a href="#assignment" onclick="goHomeSection('assignment')">Assignment</a>
+    <a href="#team" onclick="goHomeSection('team')">Team Builder</a>
+    <a href="#analytics" onclick="goHomeSection('analytics')">Analytics</a>
+  </nav>
+  <div class="nav-actions"><span id="navUser" class="nav-user"></span><button class="nav-btn" id="navLogin" onclick="openLogin()">Login</button></div>
+  <button class="hamb" onclick="toggleNav()">☰</button>
+</header>
+
+<main>
+<div id="publicApp">
+<section id="home" class="section hero">
+  <div class="hero-copy reveal">
+    <div class="eyebrow">JAVA + DSA • TALENT MARKETPLACE ENGINE</div>
+    <h1>Match the <span>right talent</span><br>with the right opportunity.</h1>
+    <p>Real-time-feeling résumé and job matching powered by skill normalization, fuzzy matching, weighted scoring, ranking, Hungarian assignment and Set Cover.</p>
+    <div class="hero-actions"><button class="btn primary" onclick="goHomeSection('jobs')">Explore Jobs →</button><button class="btn ghost" onclick="openLogin()">Login to Portal</button></div>
+    <div class="hero-trust"><span>●</span> Java backend <span>•</span> No database <span>•</span> Role-based dashboards <span>•</span> Live matching</div>
+  </div>
+  <div class="hero-visual reveal"><div class="orbit o1"></div><div class="orbit o2"></div><div class="match-card floating"><div class="mini-title">LIVE MATCH</div><div class="profile-row"><div class="avatar">AJ</div><div><b>Alex Johnson</b><small>Full Stack Developer</small></div><strong class="score">94%</strong></div><div class="bar"><i style="width:94%"></i></div><div class="chips"><span>Java</span><span>React</span><span>SQL</span><span>DSA</span></div><div class="match-foot">✓ Weighted fit score <span>Top candidate</span></div></div><div class="floating-pill p1">⚡ Hungarian Optimization</div><div class="floating-pill p2">◈ Smart Team Builder</div></div>
+</section>
+<section class="stats-strip"><div><b id="statCandidates">0</b><span>Candidates</span></div><div><b id="statJobs">0</b><span>Live Jobs</span></div><div><b id="statApps">0</b><span>Applications</span></div><div><b id="statSkills">0</b><span>Skill Aliases</span></div><div><b>7</b><span>Core Algorithms</span></div></section>
+<section id="candidate" class="section panel-section"><div class="section-head"><div><div class="eyebrow">CANDIDATE PORTAL</div><h2>Build your professional profile.</h2><p class="section-subtitle">Add candidates directly to the Java in-memory engine.</p></div><button class="btn primary" onclick="openCandidateModal()">+ Add Candidate</button></div><div class="grid-3" id="candidateGrid"></div></section>
+<section id="recruiter" class="section alt"><div class="section-head"><div><div class="eyebrow">RECRUITER PORTAL</div><h2>Hire using data structures, not guesswork.</h2></div><button class="btn primary" onclick="requireRecruiter(openJobModal)">+ Post Job</button></div><div class="recruiter-cards"><div class="feature-card"><div class="icon">⌕</div><h3>Find Talent</h3><p>Rank candidates using weighted fit scoring and a priority queue.</p><button onclick="goHomeSection('talent')">Find candidates →</button></div><div class="feature-card"><div class="icon">◎</div><h3>Optimal Assignment</h3><p>Globally assign candidates to roles using the Hungarian algorithm.</p><button onclick="runAssignment()">Run optimizer →</button></div><div class="feature-card"><div class="icon">◫</div><h3>Minimum Team</h3><p>Cover required skills with the smallest practical candidate set.</p><button onclick="runTeam()">Build team →</button></div></div></section>
+<section id="jobs" class="section panel-section"><div class="section-head"><div><div class="eyebrow">JOB PORTAL</div><h2>Explore live opportunities.</h2><p class="section-subtitle">Candidates can apply and track every application from their dashboard.</p></div><input id="jobSearch" class="search" placeholder="Search jobs, company or skill..." oninput="renderJobs()"></div><div class="grid-3" id="jobGrid"></div></section>
+<section id="talent" class="section alt"><div class="section-head"><div><div class="eyebrow">TALENT MARKETPLACE</div><h2>Discover the strongest candidates.</h2></div><select id="talentJob" class="select" onchange="renderTalent()"></select></div><div class="ranking-list" id="talentList"></div></section>
+<section id="matching" class="section panel-section"><div class="section-head"><div><div class="eyebrow">MATCHING ENGINE</div><h2>See exactly why a candidate fits.</h2></div></div><div class="matcher-controls"><select id="matchCandidate" class="select"></select><select id="matchJob" class="select"></select><button class="btn primary" onclick="runMatch()">Calculate Fit Score</button></div><div id="matchResult" class="result-box empty">Select a candidate and job, then calculate the match.</div></section>
+<section id="assignment" class="section alt"><div class="section-head"><div><div class="eyebrow">OPTIMAL ASSIGNMENT</div><h2>Global one-to-one role allocation.</h2></div><button class="btn primary" onclick="runAssignment()">Run Hungarian Algorithm</button></div><div id="assignmentResult" class="result-box empty">The optimizer will build a candidate × job score matrix and maximize total fit.</div></section>
+<section id="team" class="section panel-section"><div class="section-head"><div><div class="eyebrow">TEAM BUILDER</div><h2>Build the smallest skill-complete team.</h2></div><button class="btn primary" onclick="runTeam()">Run Set Cover</button></div><div class="team-input"><input id="teamSkills" class="search wide" value="Java,SQL,React,Git,DSA" placeholder="Required skills, comma separated"><span>Greedy Set Cover</span></div><div id="teamResult" class="result-box empty">Enter required skills and find a practical minimum team.</div></section>
+<section id="analytics" class="section alt"><div class="section-head"><div><div class="eyebrow">ANALYTICS</div><h2>Algorithm-powered marketplace insights.</h2></div></div><div class="analytics-grid"><div class="metric"><span>Average top-match score</span><b id="avgScore">—</b><div class="bar"><i id="avgBar" style="width:0%"></i></div></div><div class="metric"><span>Most represented skill</span><b id="topSkill">—</b><p>Computed from candidate skill sets.</p></div><div class="metric"><span>Best available talent</span><b id="bestTalent">—</b><p>Highest ranked candidate for the first job.</p></div><div class="metric"><span>Algorithms active</span><b>07</b><p>Hashing, fuzzy match, scoring, sorting, heap, Hungarian and Set Cover.</p></div></div></section>
+</div>
+
+<section id="login" class="app-page hidden-page"><div class="auth-shell"><div class="auth-side"><span class="auth-badge">TALENTMATCH PORTAL</span><h1>Your career.<br><span>Matched smarter.</span></h1><p>Sign in and move directly into your dedicated workspace. No scrolling through the public website.</p><div class="auth-points"><span>✓ Candidate job applications</span><span>✓ Recruiter hiring pipeline</span><span>✓ Live Java matching engine</span></div></div><div class="login-card"><div class="eyebrow">SECURE PORTAL ACCESS</div><h2>Welcome back</h2><p>Choose your role and sign in.</p><div class="role-tabs"><button class="active" onclick="selectRole(this,'candidate')">Candidate</button><button onclick="selectRole(this,'recruiter')">Recruiter</button><button onclick="selectRole(this,'admin')">Admin</button></div><label class="input-label">Email<input id="loginEmail" class="search wide" placeholder="Email"></label><label class="input-label">Password<input id="loginPass" type="password" class="search wide" placeholder="Password"></label><button class="btn primary widebtn" onclick="demoLogin()">Login to Dashboard →</button><button class="btn ghost widebtn" onclick="backToHome()">← Back to Website</button><div class="demo-box"><b>Demo credentials</b><span>Candidate: alex@example.com / demo123</span><span>Recruiter: recruiter@example.com / demo123</span><span>Admin: admin@example.com / admin123</span><span>New candidate profiles can login using their email + <b>demo123</b>.</span></div></div></div></section>
+
+<section id="dashboard" class="app-page hidden-page"><div class="dashboard-wrap"><div class="dashboard-top"><div><div class="eyebrow" id="dashRole">DASHBOARD</div><h2 id="dashTitle">Welcome</h2><p id="dashSubtitle" class="muted"></p></div><div class="dash-top-actions"><button class="btn ghost" onclick="backToHome()">Public Website</button><button class="btn primary" onclick="logout()">Logout</button></div></div><div id="dashboardContent"></div></div></section>
+</main>
+<footer><div class="brand"><span class="brand-mark">TM</span><span>Talent<span>Match</span></span></div><p>Résumé–Job Matching & Talent-Marketplace Engine • Java + DSA</p><button onclick="backToHome()">Back to website ↑</button></footer>
+<div id="modal" class="modal hidden"><div class="modal-box"><button class="close" onclick="closeModal()">×</button><div id="modalContent"></div></div></div>
+<script src="/js/app.js"></script>
+</body>
+</html>
